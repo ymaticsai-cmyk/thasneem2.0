@@ -1,7 +1,40 @@
+# Dependencies
 node_modules/
+
+# Builds
 dist/
+client/dist/
+.vite/
+
+# Environment & secrets
 .env
+.env.*
+!.env.example
+server/.env
+
+# Uploads (keep folder)
 server/uploads/*
 !server/uploads/.gitkeep
+
+# Logs & debug
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor
 .DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Tests / coverage
+coverage/
+# Python (local venvs / tooling)
+.venv-ppt/
+.venv/
+venv/
+__pycache__/
+*.pyc
