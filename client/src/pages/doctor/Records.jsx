@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import api from '../../services/api';
 import { getDoctorPatientId } from '../../lib/doctorPatient';
+import { Alert, Badge, Card, EmptyState } from '../../components/ui';
 
 const CHART_H = 224;
 
@@ -64,17 +65,17 @@ export default function DoctorRecords() {
 
   if (!pid) {
     return (
-      <div className="rounded-2xl bg-white p-6 text-slate-600 shadow-sm">
+      <Card className="text-text-muted">
         Select a patient from Scan / Search first.
-      </div>
+      </Card>
     );
   }
 
   return (
     <div className="space-y-6">
-      {err && <div className="text-red-600">{err}</div>}
-      <div className="rounded-2xl bg-white p-4 shadow-sm">
-        <div className="mb-2 text-sm font-medium text-slate-700">Vitals trend</div>
+      {err && <Alert tone="danger">{err}</Alert>}
+      <Card className="p-4">
+        <div className="mb-2 text-sm font-medium text-text">Vitals trend</div>
         <div
           ref={chartWrapRef}
           className="w-full min-w-0"
@@ -83,40 +84,41 @@ export default function DoctorRecords() {
           {chartW > 0 ? (
             <ResponsiveContainer width={chartW} height={CHART_H}>
               <LineChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" />
                 <XAxis dataKey="t" hide />
-                <YAxis />
+                <YAxis stroke="var(--color-text-muted)" />
                 <Tooltip />
-                <Line type="monotone" dataKey="pulse" stroke="#2563eb" name="Pulse" dot={false} />
-                <Line type="monotone" dataKey="bp" stroke="#10b981" name="BP systolic" dot={false} />
+                <Line type="monotone" dataKey="pulse" stroke="var(--color-info)" name="Pulse" dot={false} />
+                <Line type="monotone" dataKey="bp" stroke="var(--color-success)" name="BP systolic" dot={false} />
               </LineChart>
             </ResponsiveContainer>
           ) : (
-            <div className="flex h-full items-center justify-center text-sm text-slate-400">
+            <div className="flex h-full items-center justify-center text-sm text-text-muted">
               Loading chart…
             </div>
           )}
         </div>
-      </div>
+      </Card>
 
       <div className="space-y-4">
         {records.map((r) => (
-          <div key={r._id} className="rounded-2xl bg-white p-4 shadow-sm">
-            <div className="text-xs text-slate-500">{new Date(r.date).toLocaleString()}</div>
-            <div className="font-semibold text-slate-800">{r.diagnosis}</div>
-            <span
-              className={`mt-1 inline-block rounded-full px-2 py-0.5 text-xs ${
-                r.blockchainVerified ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-600'
-              }`}
-            >
+          <Card key={r._id} className="p-4">
+            <div className="text-xs text-text-muted">{new Date(r.date).toLocaleString()}</div>
+            <div className="font-semibold text-text">{r.diagnosis}</div>
+            <Badge tone={r.blockchainVerified ? 'success' : 'danger'} className="mt-2">
               {r.blockchainVerified ? 'Verified' : 'Tampered'}
-            </span>
-            <pre className="mt-2 max-h-40 overflow-auto text-xs text-slate-600">
+            </Badge>
+            <pre className="mt-2 max-h-40 overflow-auto text-xs text-text-muted">
               {JSON.stringify(r.prescription, null, 2)}
             </pre>
-          </div>
+          </Card>
         ))}
-        {!records.length && <p className="text-slate-500">No records</p>}
+        {!records.length && (
+          <EmptyState
+            title="No records"
+            description="No medical records are available for the selected patient yet."
+          />
+        )}
       </div>
     </div>
   );

@@ -57,7 +57,7 @@ export default function RegisterPatient() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-6">
-      <form onSubmit={submit} className="rounded-2xl bg-white p-6 shadow-sm">
+      <form onSubmit={submit} className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Register patient</h2>
         <div className="grid gap-3 sm:grid-cols-2">
           <input
@@ -150,7 +150,7 @@ export default function RegisterPatient() {
       </form>
 
       {result?.patient && (
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
+        <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
           <div className="font-semibold text-slate-800">
             {result.patient.patientId}
           </div>

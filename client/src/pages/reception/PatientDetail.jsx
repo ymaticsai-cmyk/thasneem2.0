@@ -113,7 +113,7 @@ export default function ReceptionPatientDetail() {
       )}
 
       {!editing ? (
-        <div className="rounded-2xl bg-white p-6 shadow-sm">
+        <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
           <div className="flex flex-wrap items-start justify-between gap-3">
             <div>
               <h2 className="font-bold text-slate-800">{p.name}</h2>
@@ -173,7 +173,7 @@ export default function ReceptionPatientDetail() {
       ) : (
         <form
           onSubmit={save}
-          className="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
+          className="space-y-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
         >
           <div className="flex items-center justify-between">
             <h2 className="font-bold text-slate-800">Edit patient · {p.patientId}</h2>

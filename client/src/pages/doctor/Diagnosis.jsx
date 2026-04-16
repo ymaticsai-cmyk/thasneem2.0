@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import api from '../../services/api';
 import { getDoctorPatientId } from '../../lib/doctorPatient';
+import { Alert, Button, Card, Input } from '../../components/ui';
 
 export default function DoctorDiagnosis() {
   const [symptoms, setSymptoms] = useState('');
@@ -44,37 +45,39 @@ export default function DoctorDiagnosis() {
   };
 
   return (
-    <form onSubmit={submit} className="mx-auto max-w-xl rounded-2xl bg-white p-6 shadow-sm">
-      <h2 className="mb-4 font-bold text-slate-800">Add diagnosis</h2>
-      <p className="mb-4 text-sm text-slate-500">
+    <Card className="mx-auto max-w-xl">
+      <form onSubmit={submit}>
+        <h2 className="mb-2 font-display text-2xl font-semibold">Add diagnosis</h2>
+        <p className="mb-4 text-sm text-text-muted">
         Patient: {getDoctorPatientId() || '— (use Scan first)'}
-      </p>
-      <input
-        placeholder="Symptoms (comma-separated)"
-        value={symptoms}
-        onChange={(e) => setSymptoms(e.target.value)}
-        className="mb-3 w-full rounded-xl border border-slate-200 px-3 py-2"
-      />
-      <textarea
-        placeholder="Diagnosis"
-        required
-        value={diagnosis}
-        onChange={(e) => setDiagnosis(e.target.value)}
-        className="mb-3 w-full rounded-xl border border-slate-200 px-3 py-2"
-        rows={3}
-      />
-      <textarea
-        placeholder="Notes"
-        value={notes}
-        onChange={(e) => setNotes(e.target.value)}
-        className="mb-3 w-full rounded-xl border border-slate-200 px-3 py-2"
-        rows={2}
-      />
-      {err && <p className="text-sm text-red-600">{err}</p>}
-      {msg && <p className="text-sm text-emerald-600">{msg}</p>}
-      <button type="submit" className="mt-2 rounded-xl bg-primary px-4 py-2 text-white">
-        Save record
-      </button>
-    </form>
+        </p>
+        <Input
+          placeholder="Symptoms (comma-separated)"
+          value={symptoms}
+          onChange={(e) => setSymptoms(e.target.value)}
+          className="mb-3"
+        />
+        <textarea
+          placeholder="Diagnosis"
+          required
+          value={diagnosis}
+          onChange={(e) => setDiagnosis(e.target.value)}
+          className="mb-3 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-text-soft focus-visible:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+          rows={3}
+        />
+        <textarea
+          placeholder="Notes"
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className="mb-3 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-text-soft focus-visible:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+          rows={2}
+        />
+        {err && <Alert tone="danger" className="mb-2">{err}</Alert>}
+        {msg && <Alert tone="success" className="mb-2">{msg}</Alert>}
+        <Button type="submit" className="mt-1">
+          Save record
+        </Button>
+      </form>
+    </Card>
   );
 }

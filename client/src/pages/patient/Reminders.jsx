@@ -77,7 +77,7 @@ export default function PatientReminders() {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-3">
+      <div className="dashboard-grid-3">
         {['Morning', 'Afternoon', 'Night'].map((col) => (
           <div key={col} className="rounded-2xl bg-white p-4 shadow-sm">
             <div className="mb-3 font-semibold text-slate-800">{col}</div>
@@ -108,7 +108,7 @@ export default function PatientReminders() {
         type="date"
         value={day.toISOString().slice(0, 10)}
         onChange={(e) => setDay(new Date(e.target.value))}
-        className="rounded-lg border border-slate-200 px-3 py-2"
+        className="w-full rounded-lg border border-slate-200 px-3 py-2 sm:w-auto"
       />
     </div>
   );

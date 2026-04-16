@@ -13,6 +13,8 @@ async function run() {
 
   const roles = [
     { email: 'doctor@hospital.test', name: 'Dr. Ananya Rao', role: 'doctor', specialty: 'General Medicine', regNo: 'DOC-1001' },
+    { email: 'doctor2@hospital.test', name: 'Dr. harish', role: 'doctor', specialty: 'neurologist', regNo: 'DOC-1002' },
+    { email: 'doctor3@hospital.test', name: 'Dr. banu', role: 'doctor', specialty: 'General Medicine', regNo: 'DOC-1003' },
     { email: 'nurse@hospital.test', name: 'Nurse Priya', role: 'nurse' },
     { email: 'reception@hospital.test', name: 'Reception Meera', role: 'receptionist' },
     { email: 'patient@hospital.test', name: 'Ravi Kumar', role: 'patient' },

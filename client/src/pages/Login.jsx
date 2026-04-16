@@ -43,8 +43,8 @@ export default function Login() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-primary-light px-4">
-      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-8 shadow-sm">
+    <div className="flex min-h-screen items-center justify-center bg-primary-light px-4 py-6 sm:py-8">
+      <div className="w-full max-w-md rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-8">
         <div className="mb-6 text-center">
           <div className="text-2xl font-bold text-slate-800">🏥 City Health Hospital</div>
           <p className="mt-1 text-sm text-slate-500">Health Record Management</p>

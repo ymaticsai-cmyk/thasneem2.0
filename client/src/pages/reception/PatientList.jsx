@@ -18,7 +18,7 @@ export default function ReceptionPatientList() {
   }, [q]);
 
   return (
-    <div className="rounded-2xl bg-white p-4 shadow-sm">
+    <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-5">
       <input
         placeholder="Search name, ID, blood group…"
         value={q}
@@ -29,7 +29,7 @@ export default function ReceptionPatientList() {
         <div className="text-slate-500">Loading…</div>
       ) : (
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm">
+          <table className="min-w-[700px] w-full text-left text-sm">
             <thead>
               <tr className="border-b border-slate-200 text-slate-500">
                 <th className="px-2 py-2">Name</th>

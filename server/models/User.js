@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema({
   refreshTokenHash: String,
   otpHash: String,
   otpExpiresAt: Date,
+  /** Latest Web Push subscription (PushSubscription JSON); one device — resubscribe overwrites */
+  pushSubscription: { type: mongoose.Schema.Types.Mixed, default: undefined },
   createdAt: { type: Date, default: Date.now },
 });
-
-userSchema.index({ email: 1 });
 
 module.exports = mongoose.model('User', userSchema);

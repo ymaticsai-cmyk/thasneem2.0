@@ -1,64 +1,90 @@
 import { NavLink } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import {
+  Activity,
+  CalendarClock,
+  Camera,
+  ClipboardPlus,
+  FileClock,
+  FileText,
+  Fingerprint,
+  HeartPulse,
+  Home,
+  LogOut,
+  Pill,
+  ShieldCheck,
+  Stethoscope,
+  UserRoundCog,
+  UserRoundSearch,
+  Users,
+} from 'lucide-react';
+import { Badge, Button } from './ui';
 
 const menus = {
   patient: [
-    { to: '', label: 'Overview', icon: '🏠' },
-    { to: 'history', label: 'Medical History', icon: '📄' },
-    { to: 'reminders', label: 'Medicine Reminders', icon: '💊' },
-    { to: 'appointments', label: 'Appointments', icon: '📅' },
-    { to: 'access', label: 'Access Control', icon: '🔐' },
-    { to: 'activity', label: 'Activity Log', icon: '📊' },
-    { to: 'reports', label: 'Download Reports', icon: '📥' },
+    { to: '', label: 'Overview', icon: Home },
+    { to: 'history', label: 'Medical History', icon: FileText },
+    { to: 'reminders', label: 'Medicine Reminders', icon: Pill },
+    { to: 'appointments', label: 'Appointments', icon: CalendarClock },
+    { to: 'access', label: 'Access Control', icon: ShieldCheck },
+    { to: 'activity', label: 'Activity Log', icon: Activity },
+    { to: 'reports', label: 'Download Reports', icon: FileClock },
   ],
   receptionist: [
-    { to: '', label: 'Overview', icon: '🏠' },
-    { to: 'register', label: 'Register Patient', icon: '➕' },
-    { to: 'patients', label: 'Patient List', icon: '🗂️' },
-    { to: 'qr', label: 'QR Manager', icon: '📷' },
+    { to: '', label: 'Overview', icon: Home },
+    { to: 'register', label: 'Register Patient', icon: ClipboardPlus },
+    { to: 'patients', label: 'Patient List', icon: Users },
+    { to: 'qr', label: 'QR Manager', icon: Camera },
   ],
   nurse: [
-    { to: '', label: 'Overview', icon: '🏠' },
-    { to: 'scan', label: 'Scan QR', icon: '📷' },
-    { to: 'vitals', label: 'Update Vitals', icon: '❤️' },
-    { to: 'patients', label: 'Patient List', icon: '📋' },
+    { to: '', label: 'Overview', icon: Home },
+    { to: 'scan', label: 'Scan QR', icon: Camera },
+    { to: 'vitals', label: 'Update Vitals', icon: HeartPulse },
+    { to: 'patients', label: 'Patient List', icon: Users },
   ],
   doctor: [
-    { to: '', label: 'Overview', icon: '🏠' },
-    { to: 'scan', label: 'Scan / Search', icon: '📷' },
-    { to: 'records', label: 'Medical Records', icon: '📄' },
-    { to: 'diagnosis', label: 'Add Diagnosis', icon: '✍️' },
-    { to: 'prescription', label: 'Prescription', icon: '💊' },
-    { to: 'upload', label: 'Upload Reports', icon: '📤' },
-    { to: 'blockchain', label: 'On-chain integrity', icon: '⛓' },
-    { to: 'appointments', label: 'Appointments', icon: '📅' },
-    { to: 'all-patients', label: 'All Patients', icon: '👥' },
+    { to: '', label: 'Overview', icon: Home },
+    { to: 'profile', label: 'My Profile', icon: UserRoundCog },
+    { to: 'scan', label: 'Scan / Search', icon: UserRoundSearch },
+    { to: 'records', label: 'Medical Records', icon: FileText },
+    { to: 'diagnosis', label: 'Add Diagnosis', icon: ClipboardPlus },
+    { to: 'prescription', label: 'Prescription', icon: Pill },
+    { to: 'upload', label: 'Upload Reports', icon: FileClock },
+    { to: 'blockchain', label: 'On-chain Integrity', icon: Fingerprint },
+    { to: 'appointments', label: 'Appointments', icon: CalendarClock },
+    { to: 'all-patients', label: 'All Patients', icon: Users },
+    { to: 'suggestions', label: 'Suggestions', icon: Stethoscope },
   ],
 };
 
-export default function Sidebar({ role, basePath, open, onClose }) {
+export default function Sidebar({ role, basePath, open, onClose, collapsed }) {
   const { name, logout } = useAuth();
   const items = menus[role] || [];
 
   return (
     <>
       <div
-        className={`fixed inset-0 z-40 bg-black/40 transition-opacity lg:hidden ${
+        className={`fixed inset-0 z-[55] bg-black/35 transition-opacity lg:hidden ${
           open ? 'opacity-100' : 'pointer-events-none opacity-0'
         }`}
         onClick={onClose}
         aria-hidden
       />
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[240px] flex-col border-r border-slate-200 bg-white transition-transform lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-[65] flex w-[292px] flex-col border-r border-border bg-bg-elevated/95 backdrop-blur-xl transition-all duration-[var(--duration-base)] lg:fixed lg:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        } ${collapsed ? 'lg:w-[98px]' : 'lg:w-[292px]'}`}
       >
-        <div className="border-b border-slate-200 px-4 py-5">
-          <div className="text-lg font-bold text-primary">🏥 City Health</div>
-          <div className="text-xs text-slate-500">Hospital Records</div>
+        <div className="border-b border-border px-4 py-5">
+          <div className="flex items-center justify-between gap-2">
+            <div className={collapsed ? 'hidden min-w-0' : 'block min-w-0'}>
+              <div className="font-display text-lg font-semibold text-text">MediNexus</div>
+              <div className="truncate text-xs text-text-soft">Clinical Intelligence Hub</div>
+            </div>
+            <Badge tone="info">v2</Badge>
+          </div>
         </div>
-        <nav className="flex-1 space-y-0.5 overflow-y-auto p-3">
+        <nav className="flex-1 space-y-1.5 overflow-y-auto p-3">
           {items.map((item) => (
             <NavLink
               key={item.to || 'home'}
@@ -66,30 +92,34 @@ export default function Sidebar({ role, basePath, open, onClose }) {
               end={item.to === ''}
               onClick={onClose}
               className={({ isActive }) =>
-                `flex items-center gap-2 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
+                `group flex items-center gap-3 rounded-md px-3 py-2.5 text-sm font-medium transition-all duration-[var(--duration-fast)] ${
                   isActive
-                    ? 'bg-primary-light text-primary'
-                    : 'text-slate-600 hover:bg-slate-50'
+                    ? 'bg-primary-light text-primary shadow-[var(--shadow-glow)]'
+                    : 'text-text-muted hover:bg-surface-muted hover:text-text hover:shadow-[var(--shadow-soft)]'
                 }`
               }
+              title={collapsed ? item.label : undefined}
             >
-              <span>{item.icon}</span>
-              {item.label}
+              <item.icon size={17} className="shrink-0" />
+              <span className={collapsed ? 'hidden' : 'inline truncate'}>{item.label}</span>
             </NavLink>
           ))}
         </nav>
-        <div className="border-t border-slate-200 p-4">
-          <div className="mb-2 truncate text-sm font-medium text-slate-800">{name || 'User'}</div>
-          <button
+        <div className="border-t border-border p-4">
+          <div className={`mb-3 truncate text-sm text-text ${collapsed ? 'hidden' : 'block'}`}>{name || 'User'}</div>
+          <Button
             type="button"
+            tone="ghost"
+            className="w-full justify-start"
             onClick={() => {
               logout();
               onClose();
             }}
-            className="w-full rounded-lg border border-slate-200 py-2 text-sm text-slate-600 hover:bg-slate-50"
+            title="Log out"
           >
-            Log out
-          </button>
+            <LogOut size={16} />
+            <span className={collapsed ? 'hidden' : 'inline'}>Log out</span>
+          </Button>
         </div>
       </aside>
     </>

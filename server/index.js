@@ -1,8 +1,11 @@
 require('dotenv').config();
 const path = require('path');
+const http = require('http');
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const { Server } = require('socket.io');
+const { initNotificationService } = require('./services/notificationService');
 
 const authRoutes = require('./routes/auth');
 const patientsRoutes = require('./routes/patients');
@@ -17,9 +20,20 @@ const blockchainRoutes = require('./routes/blockchain');
 const logsRoutes = require('./routes/logs');
 const uploadsRoutes = require('./routes/uploads');
 const usersRoutes = require('./routes/users');
+const referralsRoutes = require('./routes/referrals');
+const notificationsRoutes = require('./routes/notifications');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_ORIGIN || 'http://localhost:5173',
+    credentials: true,
+  },
+});
+initNotificationService(io);
 
 app.use(
   cors({
@@ -44,6 +58,8 @@ app.use('/api/blockchain', blockchainRoutes);
 app.use('/api/logs', logsRoutes);
 app.use('/api/uploads', uploadsRoutes);
 app.use('/api/users', usersRoutes);
+app.use('/api/referrals', referralsRoutes);
+app.use('/api/notifications', notificationsRoutes);
 
 app.get('/api/health', (_req, res) => res.json({ ok: true }));
 
@@ -55,7 +71,7 @@ app.use((err, _req, res, _next) => {
 mongoose
   .connect(process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/hospital_hrm')
   .then(() => {
-    app.listen(PORT, () => console.log(`API listening on ${PORT}`));
+    server.listen(PORT, () => console.log(`API listening on ${PORT}`));
   })
   .catch((e) => {
     console.error('MongoDB connection failed', e);

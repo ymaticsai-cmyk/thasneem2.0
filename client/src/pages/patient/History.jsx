@@ -46,7 +46,7 @@ export default function PatientHistory() {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-3">
+      <div className="flex flex-wrap items-center gap-2 sm:gap-3">
         <span className="text-sm font-medium text-slate-600">View:</span>
         <button
           type="button"
@@ -65,17 +65,17 @@ export default function PatientHistory() {
         <button
           type="button"
           onClick={downloadPdf}
-          className="ml-auto rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm"
+          className="w-full rounded-lg border border-slate-200 bg-white px-3 py-1 text-sm sm:ml-auto sm:w-auto"
         >
           Download prescription PDF
         </button>
       </div>
 
       {view === 'timeline' ? (
-        <div className="relative border-l-2 border-slate-200 pl-8">
+        <div className="relative border-l-2 border-slate-200 pl-5 sm:pl-8">
           {records.map((r) => (
             <div key={r._id} className="relative mb-8">
-              <div className="absolute -left-[25px] top-0 h-3 w-3 rounded-full bg-primary" />
+              <div className="absolute -left-[13px] top-0 h-3 w-3 rounded-full bg-primary sm:-left-[25px]" />
               <div className="text-xs text-slate-500">{new Date(r.date).toLocaleString()}</div>
               <div className="mt-2 rounded-2xl bg-white p-4 shadow-sm">
                 <div className="font-semibold text-slate-800">{r.diagnosis || 'Visit'}</div>

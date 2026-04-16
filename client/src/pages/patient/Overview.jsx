@@ -48,7 +48,7 @@ export default function PatientOverview() {
 
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="dashboard-grid-4">
         <div className="rounded-2xl bg-white p-4 shadow-sm">
           <div className="text-sm text-slate-500">Blood group</div>
           <div className="text-xl font-bold text-slate-800">{patient.bloodGroup}</div>
@@ -81,7 +81,7 @@ export default function PatientOverview() {
         </button>
       </div>
 
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Recent activity</h2>
         <ul className="space-y-2 text-sm text-slate-600">
           {logs.map((log) => (

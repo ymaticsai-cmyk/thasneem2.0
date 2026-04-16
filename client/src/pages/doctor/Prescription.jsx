@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import api from '../../services/api';
 import { getDoctorPatientId } from '../../lib/doctorPatient';
+import { Alert, Button, Card, Input } from '../../components/ui';
 
 export default function DoctorPrescription() {
   const [rows, setRows] = useState([
@@ -45,12 +46,13 @@ export default function DoctorPrescription() {
   };
 
   return (
-    <form onSubmit={submit} className="rounded-2xl bg-white p-6 shadow-sm">
-      <h2 className="mb-4 font-bold text-slate-800">Prescription</h2>
-      <p className="mb-4 text-sm text-slate-500">Patient: {getDoctorPatientId() || '—'}</p>
+    <Card>
+      <form onSubmit={submit}>
+      <h2 className="mb-2 font-display text-2xl font-semibold">Prescription</h2>
+      <p className="mb-4 text-sm text-text-muted">Patient: {getDoctorPatientId() || '—'}</p>
       {rows.map((row, i) => (
-        <div key={i} className="mb-3 grid gap-2 sm:grid-cols-4">
-          <input
+        <div key={i} className="mb-3 grid gap-2 md:grid-cols-2 xl:grid-cols-4">
+          <Input
             placeholder="Medicine"
             value={row.name}
             onChange={(e) => {
@@ -58,9 +60,8 @@ export default function DoctorPrescription() {
               n[i].name = e.target.value;
               setRows(n);
             }}
-            className="rounded-xl border border-slate-200 px-3 py-2"
           />
-          <input
+          <Input
             placeholder="Dosage"
             value={row.dosage}
             onChange={(e) => {
@@ -68,9 +69,8 @@ export default function DoctorPrescription() {
               n[i].dosage = e.target.value;
               setRows(n);
             }}
-            className="rounded-xl border border-slate-200 px-3 py-2"
           />
-          <input
+          <Input
             placeholder="Frequency"
             value={row.frequency}
             onChange={(e) => {
@@ -78,9 +78,8 @@ export default function DoctorPrescription() {
               n[i].frequency = e.target.value;
               setRows(n);
             }}
-            className="rounded-xl border border-slate-200 px-3 py-2"
           />
-          <input
+          <Input
             placeholder="Duration"
             value={row.duration}
             onChange={(e) => {
@@ -88,35 +87,37 @@ export default function DoctorPrescription() {
               n[i].duration = e.target.value;
               setRows(n);
             }}
-            className="rounded-xl border border-slate-200 px-3 py-2"
           />
         </div>
       ))}
-      <button
+      <Button
         type="button"
         onClick={() => setRows([...rows, { name: '', dosage: '', frequency: '', duration: '' }])}
-        className="mb-4 text-sm text-primary"
+        tone="ghost"
+        size="sm"
+        className="mb-4"
       >
         + Add row
-      </button>
+      </Button>
       <textarea
         placeholder="Notes"
         value={notes}
         onChange={(e) => setNotes(e.target.value)}
-        className="mb-3 w-full rounded-xl border border-slate-200 px-3 py-2"
+        className="mb-3 w-full rounded-lg border border-border bg-surface px-3 py-2 text-sm text-text placeholder:text-text-soft focus-visible:border-ring focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
         rows={2}
       />
-      <input
+      <Input
         placeholder="Next visit"
         value={nextVisit}
         onChange={(e) => setNextVisit(e.target.value)}
-        className="mb-4 w-full rounded-xl border border-slate-200 px-3 py-2"
+        className="mb-4"
       />
-      {err && <p className="text-sm text-red-600">{err}</p>}
-      {msg && <p className="text-sm text-emerald-600">{msg}</p>}
-      <button type="submit" className="rounded-xl bg-primary px-4 py-2 text-white">
+      {err && <Alert tone="danger" className="mb-2">{err}</Alert>}
+      {msg && <Alert tone="success" className="mb-2">{msg}</Alert>}
+      <Button type="submit">
         Save & download PDF
-      </button>
-    </form>
+      </Button>
+      </form>
+    </Card>
   );
 }

@@ -7,6 +7,7 @@ const { logActivity } = require('../utils/logActivity');
 const { authGuard } = require('../middleware/authGuard');
 const { roleGuard } = require('../middleware/roleGuard');
 const { doctorHasAccess } = require('../helpers/access');
+const { emitInApp } = require('../services/notificationService');
 
 const router = express.Router();
 
@@ -99,6 +100,16 @@ router.post(
         ipAddress: clientIp(req),
         meta: { recordId: record._id.toString() },
       });
+
+      if (patient.userId) {
+        await emitInApp({
+          userId: patient.userId,
+          type: 'medical_record',
+          title: 'New medical record',
+          body: `A new visit record was added to your chart for ${patient.name}.`,
+          routeLink: '/dashboard/patient/history',
+        });
+      }
 
       const withV = await attachVerification(record);
       res.status(201).json(withV);

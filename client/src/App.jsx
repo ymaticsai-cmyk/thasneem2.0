@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './context/AuthContext';
+import { NotificationProvider } from './context/NotificationContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardLayout from './components/DashboardLayout';
 import Login from './pages/Login';
@@ -33,10 +34,14 @@ import DoctorUpload from './pages/doctor/Upload';
 import DoctorBlockchain from './pages/doctor/Blockchain';
 import DoctorAppointments from './pages/doctor/Appointments';
 import DoctorAllPatients from './pages/doctor/AllPatients';
+import DoctorSuggestions from './pages/doctor/Suggestions';
+import DoctorProfile from './pages/doctor/Profile';
+import DoctorPatientDetail from './pages/doctor/PatientDetail';
 
 export default function App() {
   return (
     <AuthProvider>
+      <NotificationProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
@@ -97,6 +102,7 @@ export default function App() {
             }
           >
             <Route index element={<DoctorOverview />} />
+            <Route path="profile" element={<DoctorProfile />} />
             <Route path="scan" element={<DoctorScan />} />
             <Route path="records" element={<DoctorRecords />} />
             <Route path="diagnosis" element={<DoctorDiagnosis />} />
@@ -105,12 +111,15 @@ export default function App() {
             <Route path="blockchain" element={<DoctorBlockchain />} />
             <Route path="appointments" element={<DoctorAppointments />} />
             <Route path="all-patients" element={<DoctorAllPatients />} />
+            <Route path="patients/:id" element={<DoctorPatientDetail />} />
+            <Route path="suggestions" element={<DoctorSuggestions />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>
       </BrowserRouter>
+      </NotificationProvider>
     </AuthProvider>
   );
 }

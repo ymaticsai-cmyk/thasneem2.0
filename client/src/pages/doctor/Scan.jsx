@@ -96,17 +96,17 @@ export default function DoctorScan() {
   );
 
   return (
-    <div className="space-y-6">
-      <form onSubmit={search} className="flex flex-wrap gap-2">
+    <div className="space-y-4 sm:space-y-6">
+      <form onSubmit={search} className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
         <input
-          className="min-w-[200px] flex-1 rounded-xl border border-slate-200 px-3 py-2"
+          className="w-full min-w-0 flex-1 rounded-xl border border-slate-200 px-3 py-2"
           placeholder="Search name, ID, blood group…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
         <button
           type="submit"
-          className="rounded-xl bg-primary px-4 py-2 text-white"
+          className="w-full rounded-xl bg-primary px-4 py-2 text-white sm:w-auto"
           disabled={loading}
         >
           Search
@@ -120,7 +120,7 @@ export default function DoctorScan() {
       {err && <div className="text-sm text-red-600">{err}</div>}
 
       {patient && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="font-bold text-slate-800">{patient.name}</div>
           <div className="text-sm text-slate-500">{patient.patientId}</div>
           {patient.needsAccess ? (

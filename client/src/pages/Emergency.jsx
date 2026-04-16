@@ -28,7 +28,7 @@ export default function Emergency() {
   }
 
   return (
-    <div className="min-h-screen bg-red-600 p-4 text-white md:p-8">
+    <div className="min-h-screen bg-red-600 p-4 text-white sm:p-6 md:p-8">
       <div className="mx-auto max-w-lg">
         <h1 className="mb-6 text-center text-xl font-bold md:text-2xl">
           ⚠️ EMERGENCY MEDICAL INFORMATION

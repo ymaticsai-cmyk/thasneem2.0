@@ -19,7 +19,6 @@ const patientSchema = new mongoose.Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-patientSchema.index({ patientId: 1 });
 patientSchema.index({ name: 'text', patientId: 'text' });
 
 module.exports = mongoose.model('Patient', patientSchema);

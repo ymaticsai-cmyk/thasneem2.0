@@ -20,7 +20,7 @@ export default function PatientActivity() {
   if (loading) return <div className="text-slate-500">Loading…</div>;
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
       <h2 className="mb-4 font-bold text-slate-800">Activity log</h2>
       <ul className="space-y-3 text-sm text-slate-600">
         {logs.map((log) => (

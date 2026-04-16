@@ -6,6 +6,7 @@ const { logActivity } = require('../utils/logActivity');
 const { authGuard } = require('../middleware/authGuard');
 const { roleGuard } = require('../middleware/roleGuard');
 const { doctorHasAccess } = require('../helpers/access');
+const { emitInApp } = require('../services/notificationService');
 
 const router = express.Router();
 
@@ -48,6 +49,14 @@ router.post(
         sessionId: req.user.sessionId,
         ipAddress: clientIp(req),
         meta: { type: 'access_grant', doctorId },
+      });
+
+      await emitInApp({
+        userId: doctorId,
+        type: 'access_grant',
+        title: 'Access granted',
+        body: `${patient.name} granted you access to their health record.`,
+        routeLink: '/dashboard/doctor/all-patients',
       });
 
       res.status(201).json(ac);

@@ -21,7 +21,7 @@ export default function PatientReports() {
   };
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
       <h2 className="mb-4 font-bold text-slate-800">Download reports</h2>
       <p className="mb-4 text-sm text-slate-600">
         Export your latest prescription as PDF (same as medical history download).

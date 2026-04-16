@@ -43,15 +43,15 @@ export default function PatientAccess() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Doctors with access</h2>
         <ul className="space-y-3">
           {access.map((a) => (
             <li
               key={a._id}
-              className="flex items-center justify-between rounded-xl border border-slate-100 p-4"
+              className="flex flex-col items-start justify-between gap-3 rounded-xl border border-slate-100 p-4 sm:flex-row sm:items-center"
             >
-              <div>
+              <div className="min-w-0">
                 <div className="font-medium">{a.doctorId?.name}</div>
                 <div className="text-sm text-slate-500">{a.doctorId?.specialty}</div>
                 <div className="text-xs text-slate-400">
@@ -61,7 +61,7 @@ export default function PatientAccess() {
               <button
                 type="button"
                 onClick={() => revoke(a._id)}
-                className="rounded-lg border border-red-200 px-3 py-1 text-sm text-red-600 hover:bg-red-50"
+                className="shrink-0 rounded-lg border border-red-200 px-3 py-1 text-sm text-red-600 hover:bg-red-50"
               >
                 Revoke
               </button>
@@ -71,7 +71,7 @@ export default function PatientAccess() {
         </ul>
       </div>
 
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Grant access</h2>
         <input
           placeholder="Search doctor by name"
@@ -96,7 +96,7 @@ export default function PatientAccess() {
 
       {confirmDoc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+          <div className="max-h-[90dvh] w-full max-w-sm overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
             <p className="text-slate-800">
               Grant <strong>{confirmDoc.name}</strong> access to your records?
             </p>

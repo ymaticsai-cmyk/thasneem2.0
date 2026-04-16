@@ -31,11 +31,11 @@ export default function NurseScan() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       <QRScanner onScan={handleScan} onError={(m) => setErr(m)} />
       {err && <div className="rounded-lg bg-red-50 p-3 text-sm text-red-700">{err}</div>}
       {patient && (
-        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-5">
           <div className="font-bold text-slate-800">{patient.name}</div>
           <div className="text-sm text-slate-500">{patient.patientId}</div>
           <div className="mt-2 text-sm">

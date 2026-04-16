@@ -19,7 +19,7 @@ export default function NursePatientList() {
       />
       <ul className="divide-y divide-slate-100">
         {list.map((p) => (
-          <li key={p._id} className="flex justify-between py-3 text-sm">
+          <li key={p._id} className="flex flex-col gap-1 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
             <span className="font-medium text-slate-800">{p.name}</span>
             <span className="text-slate-500">{p.patientId}</span>
           </li>

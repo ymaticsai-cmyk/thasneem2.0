@@ -9,7 +9,7 @@ export default function QRManager() {
   }, []);
 
   return (
-    <div className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
       <h2 className="mb-4 font-bold text-slate-800">QR codes</h2>
       <p className="mb-4 text-sm text-slate-500">
         Download or reprint patient QR codes. Same data as registration.
@@ -18,7 +18,7 @@ export default function QRManager() {
         {list.map((p) => (
           <li
             key={p._id}
-            className="flex flex-wrap items-center gap-4 border-b border-slate-100 pb-4"
+            className="flex flex-wrap items-center gap-3 border-b border-slate-100 pb-4 sm:gap-4"
           >
             <div className="flex-1">
               <div className="font-medium text-slate-800">{p.name}</div>

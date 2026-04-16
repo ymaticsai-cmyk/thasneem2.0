@@ -5,7 +5,7 @@ const User = require('../models/User');
 const { logActivity } = require('../utils/logActivity');
 const { authGuard } = require('../middleware/authGuard');
 const { roleGuard } = require('../middleware/roleGuard');
-const { doctorHasAccess } = require('../helpers/access');
+const { emitInApp } = require('../services/notificationService');
 
 const router = express.Router();
 
@@ -48,6 +48,15 @@ router.post(
         sessionId: req.user.sessionId,
         ipAddress: clientIp(req),
         meta: { appointmentId: appt._id.toString() },
+      });
+
+      const when = `${new Date(appt.date).toLocaleDateString()} at ${appt.time}`;
+      await emitInApp({
+        userId: doctorId,
+        type: 'appointment_booking',
+        title: 'New appointment request',
+        body: `${patient.name} requested an appointment for ${when}.`,
+        routeLink: '/dashboard/doctor/appointments',
       });
 
       res.status(201).json(appt);
@@ -108,6 +117,19 @@ router.patch('/:id', authGuard, roleGuard(['doctor']), async (req, res) => {
       ipAddress: clientIp(req),
       meta: { appointmentId: appt._id.toString() },
     });
+
+    const pUser = await Patient.findById(appt.patientId).select('userId name').lean();
+    if (pUser?.userId) {
+      const statusLabel =
+        status === 'approved' ? 'approved' : status === 'rejected' ? 'declined' : 'updated';
+      await emitInApp({
+        userId: pUser.userId,
+        type: 'appointment_status',
+        title: 'Appointment update',
+        body: `Your appointment was ${statusLabel}.`,
+        routeLink: '/dashboard/patient/appointments',
+      });
+    }
 
     res.json(appt);
   } catch (e) {

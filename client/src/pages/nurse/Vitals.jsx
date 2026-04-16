@@ -32,7 +32,7 @@ export default function NurseVitals() {
   };
 
   return (
-    <form onSubmit={submit} className="mx-auto max-w-lg rounded-2xl bg-white p-6 shadow-sm">
+    <form onSubmit={submit} className="mx-auto max-w-lg rounded-2xl bg-white p-4 shadow-sm sm:p-6">
       <h2 className="mb-4 font-bold text-slate-800">Vitals</h2>
       <input
         placeholder="Patient Mongo ID (from scan)"

@@ -11,6 +11,7 @@ const { buildPrescriptionPdfBuffer } = require('../utils/pdfGenerator');
 const { createBlockForRecord, verifyRecordIntegrity } = require('../blockchain/chain');
 const BlockChain = require('../models/BlockChain');
 const { sha256, buildMedicalRecordHashPayload } = require('../utils/hashGenerator');
+const { emitInApp } = require('../services/notificationService');
 
 const router = express.Router();
 
@@ -150,6 +151,17 @@ router.post(
         ipAddress: clientIp(req),
         meta: { type: 'prescription', recordId: record._id.toString() },
       });
+
+      const patientNotifyId = patient.userId?._id ?? patient.userId;
+      if (patientNotifyId) {
+        await emitInApp({
+          userId: patientNotifyId,
+          type: 'prescription',
+          title: 'New prescription',
+          body: `Dr. ${doctor.name} added a prescription for ${patient.name}.`,
+          routeLink: '/dashboard/patient/history',
+        });
+      }
 
       const pdf = await buildPrescriptionPdfBuffer({
         doctorName: doctor.name,

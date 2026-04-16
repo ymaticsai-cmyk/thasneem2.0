@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { getDoctorPatientId, setDoctorPatientId } from '../../lib/doctorPatient';
+import { Alert, Button, Card, Input } from '../../components/ui';
 
 export default function DoctorUpload() {
   const [selectedPatientId, setSelectedPatientId] = useState(() => getDoctorPatientId());
@@ -104,63 +105,66 @@ export default function DoctorUpload() {
   };
 
   return (
-    <form onSubmit={submit} className="mx-auto max-w-lg space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-      <h2 className="font-bold text-slate-800">Upload reports</h2>
+    <Card className="mx-auto max-w-xl">
+      <form onSubmit={submit} className="space-y-4">
+      <h2 className="font-display text-2xl font-semibold">Upload reports</h2>
 
-      <div className="rounded-xl bg-slate-50 p-4 text-sm">
-        <div className="font-medium text-slate-700">Active patient</div>
+      <div className="rounded-xl border border-border bg-surface-muted p-4 text-sm">
+        <div className="font-medium text-text">Active patient</div>
         {loadingPatient && selectedPatientId ? (
-          <p className="mt-1 text-slate-500">Loading…</p>
+          <p className="mt-1 text-text-muted">Loading…</p>
         ) : selectedPatientId ? (
-          <p className="mt-1 text-slate-800">{patientLabel || selectedPatientId}</p>
+          <p className="mt-1 text-text">{patientLabel || selectedPatientId}</p>
         ) : (
-          <p className="mt-1 text-amber-800">No patient selected yet.</p>
+          <p className="mt-1 text-warning">No patient selected yet.</p>
         )}
         <div className="mt-2 flex flex-wrap gap-2">
-          <button
+          <Button
             type="button"
             onClick={syncFromScan}
-            className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs text-slate-700 hover:bg-slate-50"
+            tone="secondary"
+            size="sm"
           >
             Sync from Scan / Search
-          </button>
+          </Button>
           <Link
             to="/dashboard/doctor/scan"
-            className="rounded-lg border border-primary bg-primary-light px-3 py-1.5 text-xs font-medium text-primary"
+            className="inline-flex h-9 items-center justify-center rounded-md border border-primary bg-primary-light px-3 text-xs font-medium text-primary"
           >
             Open Scan / Search
           </Link>
         </div>
       </div>
 
-      <div className="border-t border-slate-100 pt-4">
-        <div className="text-sm font-medium text-slate-700">Or pick a patient</div>
+      <div className="border-t border-border pt-4">
+        <div className="text-sm font-medium text-text">Or pick a patient</div>
         <div className="mt-2 flex gap-2">
-          <input
-            className="min-w-0 flex-1 rounded-xl border border-slate-200 px-3 py-2 text-sm"
+          <Input
+            className="min-w-0 flex-1"
             placeholder="Search name or PAT-ID…"
             value={searchQ}
             onChange={(e) => setSearchQ(e.target.value)}
             onKeyDown={(e) => e.key === 'Enter' && (e.preventDefault(), runSearch())}
           />
-          <button
+          <Button
             type="button"
             onClick={runSearch}
-            className="shrink-0 rounded-xl bg-slate-100 px-3 py-2 text-sm font-medium text-slate-800"
+            tone="secondary"
+            className="shrink-0"
           >
             Search
-          </button>
+          </Button>
         </div>
         {searchResults.length > 0 && (
-          <ul className="mt-2 max-h-40 overflow-y-auto rounded-xl border border-slate-200 bg-white text-sm">
+          <ul className="mt-2 max-h-40 overflow-y-auto rounded-xl border border-border bg-surface text-sm">
             {searchResults.map((p) => (
               <li key={p._id}>
                 <button
                   type="button"
                   onClick={() => pickPatient(p)}
-                  className="w-full px-3 py-2 text-left hover:bg-primary-light"
+                  className="w-full px-3 py-2 text-left text-text hover:bg-primary-light"
                 >
-                  {p.name} <span className="text-slate-500">{p.patientId}</span>
+                  {p.name} <span className="text-text-muted">{p.patientId}</span>
                 </button>
               </li>
             ))}
@@ -169,7 +173,7 @@ export default function DoctorUpload() {
       </div>
 
       <div>
-        <label className="mb-1 block text-sm font-medium text-slate-700">File</label>
+        <label className="mb-1 block text-sm font-medium text-text">File</label>
         <input
           type="file"
           accept=".pdf,.jpg,.jpeg,.png,application/pdf,image/jpeg,image/png"
@@ -177,28 +181,29 @@ export default function DoctorUpload() {
             setFile(e.target.files?.[0] || null);
             setErr('');
           }}
-          className="block w-full text-sm text-slate-600 file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-2 file:text-sm file:font-medium file:text-white"
+          className="block w-full text-sm text-text-muted file:mr-3 file:rounded-lg file:border-0 file:bg-primary file:px-3 file:py-2 file:text-sm file:font-medium file:text-bg"
         />
         {file && (
-          <p className="mt-1 text-xs text-slate-500">
+          <p className="mt-1 text-xs text-text-muted">
             Selected: {file.name} ({Math.round(file.size / 1024)} KB)
           </p>
         )}
       </div>
 
-      <input
+      <Input
         placeholder="Optional medical record ID (Mongo)"
         value={recordId}
         onChange={(e) => setRecordId(e.target.value)}
-        className="w-full rounded-xl border border-slate-200 px-3 py-2 font-mono text-sm"
+        className="w-full font-mono"
       />
 
-      {err && <p className="text-sm text-red-600">{err}</p>}
-      {msg && <p className="text-sm text-emerald-600">{msg}</p>}
+      {err && <Alert tone="danger">{err}</Alert>}
+      {msg && <Alert tone="success">{msg}</Alert>}
 
-      <button type="submit" className="rounded-xl bg-primary px-4 py-2.5 font-semibold text-white">
+      <Button type="submit">
         Upload
-      </button>
-    </form>
+      </Button>
+      </form>
+    </Card>
   );
 }

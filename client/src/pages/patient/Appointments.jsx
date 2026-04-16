@@ -49,8 +49,8 @@ export default function PatientAppointments() {
   if (loading) return <div className="text-slate-500">Loading…</div>;
 
   return (
-    <div className="space-y-8">
-      <form onSubmit={submit} className="rounded-2xl bg-white p-6 shadow-sm">
+    <div className="space-y-6 sm:space-y-8">
+      <form onSubmit={submit} className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Book appointment</h2>
         <div className="grid gap-4 sm:grid-cols-2">
           <select
@@ -96,19 +96,19 @@ export default function PatientAppointments() {
         </button>
       </form>
 
-      <div className="rounded-2xl bg-white p-6 shadow-sm">
+      <div className="rounded-2xl bg-white p-4 shadow-sm sm:p-6">
         <h2 className="mb-4 font-bold text-slate-800">Your appointments</h2>
         <ul className="space-y-3">
           {list.map((a) => (
             <li
               key={a._id}
-              className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3"
+              className="flex flex-col items-start justify-between gap-2 border-b border-slate-100 pb-3 sm:flex-row sm:items-center"
             >
-              <div>
+              <div className="min-w-0">
                 <div className="font-medium text-slate-800">
                   {new Date(a.date).toLocaleDateString()} {a.time}
                 </div>
-                <div className="text-sm text-slate-500">
+                <div className="break-words text-sm text-slate-500">
                   Dr. {a.doctorId?.name} — {a.reason}
                 </div>
               </div>
